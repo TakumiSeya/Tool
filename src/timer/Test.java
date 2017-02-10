@@ -17,7 +17,7 @@ import java.awt.event.*;
  */
 @SuppressWarnings("serial")
 class Test extends JFrame implements ActionListener {
-	int flag = 0;
+	int flag;
 	int sec;
 	int in;
 	int h, m, s, k;
@@ -67,7 +67,7 @@ class Test extends JFrame implements ActionListener {
 		gbc.anchor = GridBagConstraints.CENTER;
 		layout.setConstraints(label_operation2, gbc);
 		
-		sec = 5400;
+		sec = 10;
 		in = sec;
 	    h = 0;
 		m = 0;
@@ -108,32 +108,47 @@ class Test extends JFrame implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		if(sec > 0) timer.start();  
-		else if(sec <= 0) timer.stop();
-		if(flag == 0) {
-			  btn.setText("撤退");
-			  btn.setForeground(Color.RED);
-			  flag = 1;
-		  }
-		  else if(flag == 1) {
-			  btn.setText("出撃");
-			  btn.setForeground(Color.BLUE);
-			  flag = 0;
-		  }
-		  
-		  label_time2.setText(String.format("%02d", h) + " : " + String.format("%02d", m) + " : " + String.format("%02d", s));
-		  
-			if (sec <= 0){
-			  timer.stop();
-			}else{
-				sec--;
-				in = sec;
-				h = sec / 3600;
-				k = sec % 3600;
-				m = k / 60;
-				s = k % 60;
-				System.out.println(flag);
+		while(flag == 0) {
+			timer.start();
+			if(sec >= 0) {
+				btn.setText("撤退");
+				btn.setForeground(Color.RED);
+				flag = 1;
+				if(sec <= 0) {
+					btn.setText("出撃");
+					btn.setForeground(Color.BLUE);
+					flag = 0;
+				}
 			}
+		}
+		/*
+		if(flag == 0) {
+			timer.start();
+			if(sec >= 0) {
+				btn.setText("撤退");
+				btn.setForeground(Color.RED);
+				flag = 1;
+			}	  
+		}
+		else if(flag == 1) {
+			btn.setText("出撃");
+			btn.setForeground(Color.BLUE);
+			flag = 0;
+		}
+		*/
 		  
-	  } 
+		label_time2.setText(String.format("%02d", h) + " : " + String.format("%02d", m) + " : " + String.format("%02d", s));
+		  
+		if (sec <= 0){
+			timer.stop();
+		}else{
+			sec--;
+			in = sec;
+			h = sec / 3600;
+			k = sec % 3600;
+			m = k / 60;
+			s = k % 60;
+			System.out.println(flag);
+		}		  
+	} 
 }
